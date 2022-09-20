@@ -11,13 +11,15 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Cache::remember('books', 60 * 60, function(){
-            return Book::all();
+        $books = Cache::remember('books-page-' . request('page', 1), 60 * 60, function(){
+            return Book::paginate(10)->withQueryString();
         });
 
         $data = [
             'books' => $books
         ];
+
+        // dd(98/10);
         
         return view('index', $data);
     }

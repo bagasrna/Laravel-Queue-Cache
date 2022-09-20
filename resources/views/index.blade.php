@@ -16,6 +16,9 @@
   <div class="table-responsive col-lg-8">
     <a href="/books/create" class="btn btn-primary mb-3">Create new book</a>
     <table class="table table-striped table-sm">
+      @if(count($books) == 0)
+          <h3>Buku Kosong! Silahkan Menambahkan Buku Dahulu Dengan Menggunakan Seed</h3>
+      @else
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -35,6 +38,10 @@
         @endforeach
       </tbody>
     </table>
+    @endif
+  </div>
+  <div class="d-flex justify-content-center">
+    {{ $books->links() }}
   </div>
 </main>
 @endsection

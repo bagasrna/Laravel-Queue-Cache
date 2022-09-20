@@ -39,7 +39,22 @@ class BookJob implements ShouldQueue
             'author' => $this->params['author'],
             'category' => $this->params['category'],
         ];
+
+        $count = Book::count();
+
         Book::create($data);
-        Cache::forget('books');
+
+        if($count == 0){
+            Cache::forget("books-page-1");
+        }
+        
+        for($i = 1; $i <= $count; $i++){
+            $key = 'books-page-' . $i;
+            if(Cache::has($key)){
+                Cache::forget($key);
+            } else {
+                break;
+            }
+        }
     }
 }
