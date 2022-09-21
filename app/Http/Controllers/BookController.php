@@ -18,8 +18,6 @@ class BookController extends Controller
         $data = [
             'books' => $books
         ];
-
-        // dd(98/10);
         
         return view('index', $data);
     }
