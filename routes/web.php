@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::redirect('/', '/books');
+
 Route::get('/books', [BookController::class, 'index']);
 Route::get('/books/create', [BookController::class, 'create']);
 Route::post('/books/create', [BookController::class, 'store']);
+
+Route::get('{any}', [BookController::class, 'index']);

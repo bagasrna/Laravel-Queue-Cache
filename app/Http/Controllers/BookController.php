@@ -6,11 +6,18 @@ use App\Jobs\BookJob;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
     public function index()
     {
+        $count = ceil(Book::count() / 10);
+
+        if(request('page') > $count){
+            return redirect('/books')->with('error', 'Page tidak ditemukan!');
+        }
+
         $books = Cache::remember('books-page-' . request('page', 1), 60 * 60, function(){
             return Book::paginate(10)->withQueryString();
         });
@@ -29,11 +36,24 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'author' => 'required',
-            'category' => 'required'
-        ]);
+        $rules = [
+            'title' => 'required|max:255|unique:App\Models\Book,title',
+            'author' => 'required|starts_with:M|regex:(.)',
+            'category' => 'required|not_regex:(.)'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        // $validator = Validator::make($request->all(), $rules);
+
+        // if ($validator->fails())
+        // return redirect()->back()->with('error', 'Field not match!');
+
+        // $data = [
+        //     'title' => $request->title,
+        //     'author' => $request->author,
+        //     'category' => $request->category
+        // ];
 
         try {
             BookJob::dispatch($validatedData);

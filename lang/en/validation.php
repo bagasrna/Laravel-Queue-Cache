@@ -152,8 +152,15 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'title' => [
+            'unique' => 'Title already used in another book',
+        ],
+        'author' => [
+            'starts_with' => "The author's name must begin with Mr, Mrs, Miss, or Ms",
+            'regex' => "The author's name must contain with '.'",
+        ],
+        'category' => [
+            'not_regex' => "The category's name cannot contain (.)",
         ],
     ],
 

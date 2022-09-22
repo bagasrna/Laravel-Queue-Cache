@@ -12,12 +12,18 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
+    @if(session()->has('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ session('error') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
   
   <div class="table-responsive col-lg-8">
     <a href="/books/create" class="btn btn-primary mb-3">Create new book</a>
     <table class="table table-striped table-sm">
       @if(count($books) == 0)
-          <h3>Buku Kosong! Silahkan Menambahkan Buku Dahulu Dengan Menggunakan Seed</h3>
+          <h3>Buku Kosong! Silahkan Menambahkan Buku Dahulu Dengan Menggunakan Seeder</h3>
       @else
       <thead>
         <tr>
